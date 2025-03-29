@@ -18,7 +18,6 @@ export default function DownloaderSection() {
 
     setLoading(true);
     try {
-      // Here you would implement the actual download logic
       toast.success('Download started!');
     } catch (error) {
       toast.error('Failed to download content');
@@ -31,13 +30,16 @@ export default function DownloaderSection() {
     <div className="bg-white rounded-lg shadow-lg p-6 mb-12">
       <div className="max-w-3xl mx-auto">
         <div className="flex flex-col md:flex-row gap-4">
-          <Input
-            placeholder="Paste Instagram URL here..."
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            className="flex-1"
-            icon={<LinkIcon className="h-4 w-4 text-gray-400" />}
-          />
+          <div className="relative flex-1">
+            <Input
+              placeholder="Paste Instagram URL here..."
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              className="pl-10"  // Add padding to avoid overlap with icon
+            />
+            <LinkIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+          </div>
+
           <Button
             onClick={handleDownload}
             disabled={loading}
