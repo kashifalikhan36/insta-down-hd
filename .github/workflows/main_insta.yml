@@ -65,8 +65,8 @@ jobs:
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
-        uses: azure/webapps-deploy@v4
+        uses: azure/webapps-deploy@v3
         with:
-          app-name: 'insta'
+          app-name: 'yt1s'
           slot-name: 'Production'
-          package: release.zip
+          package: ./deploy
