@@ -1,10 +1,12 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Next.js Insta stuff
+name: Build and deploy Node.js app to Azure Web App - insta
 
 on:
   push:
     branches:
-      - nextjs
+      - main
   workflow_dispatch:
 
 jobs:
@@ -21,17 +23,19 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: npm install, build
+      - name: npm install, build, and test
         run: |
           npm install
           npm run build --if-present
+          npm run test --if-present
+
       - name: Zip artifact for deployment
-        run: zip -r release.zip ./out
+        run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: static-app
+          name: node-app
           path: release.zip
 
   deploy:
@@ -48,22 +52,23 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: static-app
+          name: node-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip -d deploy
-
+        run: unzip release.zip
+      
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_6F709211A91C4018BFB3E04F4AC0329D }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D3AF5427B21F4216BF42637B522251BD }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_FD5B0E4D0A6E4F11A45CD74F53C61D8E }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3C2D37585B294EE5BA545201CF85EEE1 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C05BC35C3A9C49B8ABF023A2B7BF555B }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_2D53B42C0F5F4228A98E1A3F13780BB4 }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'yt1s'
+          app-name: 'insta'
           slot-name: 'Production'
-          package: ./deploy
+          package: .
+          
