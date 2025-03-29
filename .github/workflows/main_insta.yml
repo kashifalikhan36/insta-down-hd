@@ -23,18 +23,19 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: npm install, build
+      - name: npm install, build, and test
         run: |
           npm install
           npm run build --if-present
+          npm run test --if-present
 
       - name: Zip artifact for deployment
-        run: zip -r release.zip ./out
+        run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: static-app
+          name: node-app
           path: release.zip
 
   deploy:
@@ -44,8 +45,8 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write # Required for JWT
-      contents: read
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
 
     steps:
       - name: Download artifact from build job
@@ -55,18 +56,19 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-
+      
       - name: Login to Azure
         uses: azure/login@v2
         with:
-           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_AB5CCBD654D24BE7B9FCFF998447ABD0 }}
-           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_483CAB489B2F47818D8C6C194948FA61 }}
-           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A3B65016FFFA44E2A7D2C59EA12440DD }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_90E84B3460734C1E89735A3ECF90E6B0 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_CE4A2A5D25134926B28B9FC9C4BDDB64 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A5F934F9BAA841029FFC27A35F28091E }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'yt1s'
+          app-name: 'insta'
           slot-name: 'Production'
-          package: ./deploy
+          package: .
+          
