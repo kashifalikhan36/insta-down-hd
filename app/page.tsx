@@ -6,7 +6,7 @@ import BenefitsSection from '@/components/BenefitsSection';
 import UseCasesSection from '@/components/UseCasesSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import ComparisonSection from '@/components/ComparisonSection';
-import TipsSection from '@/components/TipsSection';
+// import TipsSection from '@/components/TipsSection';
 import CTASection from '@/components/CTASection';
 
 export default function Home() {
@@ -18,21 +18,21 @@ export default function Home() {
           <span className="text-pink-500">Easily & Securely</span>
         </h1>
         <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto text-center mb-8">
-          The fastest and most reliable way to download Instagram videos, photos, reels, IGTV, 
+          The fastest and most reliable way to download Instagram videos, photos, reels, IGTV,
           stories, and carousels in high quality. No login required, 100% free!
         </p>
         <DownloaderSection />
       </section>
 
-      <FeaturesSection />
+      {/* <FeaturesSection /> */}
       <BenefitsSection />
       <HowToSection />
-      <UseCasesSection />
+      {/* <UseCasesSection /> */}
       <ComparisonSection />
-      <TestimonialsSection />
-      <TipsSection />
+      {/* <TestimonialsSection /> */}
+      {/* <TipsSection /> */}
       <FAQSection />
-      <CTASection />
+      {/* <CTASection /> */}
     </div>
   );
 }
